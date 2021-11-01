@@ -36,20 +36,7 @@ def tokenize_text(text, remove_stopwords=False):
     for d in nltk.sent_tokenize(text, language='english'):
         for word in nltk.word_tokenize(d, language='english'):
             # filters here
-            print(word)
-            if word not in [',', '.', '!', '?']:
+            if re.match('[a-zA-Z]+', word) and word not in tokens:
                 tokens.append(word)
     return tokens
 
-
-# if __name__ == '__main__':
-#     test = [
-#         'So there is no way for me to plug it in here in the US unless I go by a converter.',
-#         'Good case, Excellent value.',
-#         'Great for the jawbone.',
-#         'So Far So Good!.',
-#         'I advise EVERYONE DO NOT BE FOOLED!'
-#     ]
-
-#     for sent in test:
-#         print(tokenize_text(sent))
