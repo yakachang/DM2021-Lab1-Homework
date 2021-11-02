@@ -41,7 +41,7 @@ def tokenize_text(text, remove_stopwords=True):
     text = text.lower()
     text = text.translate(str.maketrans('', '', string.punctuation))
     text = text.strip()
-    # porter = nltk.stem.porter.PorterStemmer()
+    
     for word in re.split('\s+', text.strip()):
         if word not in stopwords and re.match('[a-zA-Z]+', word):
             tokens.append(porter.stem(word))
