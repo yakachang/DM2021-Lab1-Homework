@@ -1,11 +1,17 @@
 import nltk
 import re
+import string
+from nltk.stem.porter import PorterStemmer
 
 """
 Helper functions for data mining lab session 2018 Fall Semester
 Author: Elvis Saravia
 Email: ellfae@gmail.com
 """
+
+stopwords = nltk.corpus.stopwords.words('english')
+
+porter = PorterStemmer()
 
 def format_rows(docs):
     """ format the text field and strip special characters """
@@ -27,16 +33,17 @@ def check_missing_values(row):
             counter+=1
     return ("The amoung of missing records is: ", counter)
 
-def tokenize_text(text, remove_stopwords=False):
+def tokenize_text(text, remove_stopwords=True):
     """
     Tokenize text using the nltk library
     """
     tokens = []
     text = text.lower()
-    for d in nltk.sent_tokenize(text, language='english'):
-        for word in nltk.word_tokenize(d, language='english'):
-            # filters here
-            if re.match('[a-zA-Z]+', word) and word not in tokens:
-                tokens.append(word)
-    return tokens
+    text = text.translate(str.maketrans('', '', string.punctuation))
+    text = text.strip()
+    # porter = nltk.stem.porter.PorterStemmer()
+    for word in re.split('\s+', text.strip()):
+        if word not in stopwords and re.match('[a-zA-Z]+', word):
+            tokens.append(porter.stem(word))
 
+    return tokens
